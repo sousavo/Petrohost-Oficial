@@ -1,4 +1,3 @@
-
 import { Facebook, Instagram, Linkedin, ShoppingCart, User, ChevronDown, Menu, X } from 'lucide-react';
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
@@ -7,44 +6,32 @@ const Header = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
 
-  const megaMenuItems = {
-    'Hospedagem Web': [
-      { name: 'Hospedagem Compartilhada', href: '/hospedagem/compartilhada' },
-      { name: 'Hospedagem WordPress', href: '/hospedagem/wordpress' },
-      { name: 'Hospedagem SSD', href: '/hospedagem/ssd' }
-    ],
-    'Hospedagem Profissional': [
-      { name: 'VPS Cloud', href: '/hospedagem/vps' },
-      { name: 'Servidor Dedicado', href: '/hospedagem/dedicado' },
-      { name: 'Cloud Hosting', href: '/hospedagem/cloud' }
-    ],
-    'Recursos Inclusos': [
-      { name: 'SSL Grátis', href: '/hospedagem/ssl' },
-      { name: 'Backup Automático', href: '/hospedagem/backup' },
-      { name: 'Suporte 24/7', href: '/hospedagem/suporte' }
-    ]
-  };
+  const megaMenuItems = [
+    { name: 'Hospedagem para WordPress', href: '/hospedagem/wordpress' },
+    { name: 'Hospedagem Gerenciada para WordPress', href: '/hospedagem/wordpress-gerenciada' },
+    { name: 'Hospedagem cPanel', href: '/hospedagem/cpanel' }
+  ];
 
   const subMenuItems = {
     'Domínio': [
-      { name: 'Registrar Domínio', href: '/dominios/registrar' },
-      { name: 'Transferir Domínio', href: '/dominios/transferir' },
-      { name: 'Pesquisar Domínio', href: '/dominios/pesquisar' }
-    ],
-    'Email': [
-      { name: 'Email Profissional', href: '/email/profissional' },
-      { name: 'Gmail para Empresas', href: '/email/gmail' },
-      { name: 'Webmail', href: '/email/webmail' }
+      { name: 'Comprar um domínio', href: '/dominios/comprar' },
+      { name: 'Transferência de Domínio', href: '/dominios/transferir' }
     ],
     'Websites': [
-      { name: 'Criador de Sites', href: '/websites/criador' },
-      { name: 'Templates', href: '/websites/templates' },
-      { name: 'E-commerce', href: '/websites/ecommerce' }
+      { name: 'Criação de Site', href: '/websites/criacao' },
+      { name: 'Hospedagem para WordPress', href: '/websites/wordpress' }
     ],
     'Servidores': [
-      { name: 'VPS', href: '/servidores/vps' },
-      { name: 'Dedicados', href: '/servidores/dedicados' },
-      { name: 'Cloud', href: '/servidores/cloud' }
+      { name: 'Hospedagem VPS Gerenciada', href: '/servidores/vps-gerenciada' },
+      { name: 'Hospedagem VPS', href: '/servidores/vps' },
+      { name: 'Servidores Dedicados', href: '/servidores/dedicados' },
+      { name: 'Servidor Virtual Dedicado', href: '/servidores/virtual-dedicado' }
+    ],
+    'Sobre': [
+      { name: 'Contacto', href: '/contato' },
+      { name: 'Programa de Afiliado', href: '/sobre/afiliado' },
+      { name: 'Base de conhecimento', href: '/sobre/conhecimento' },
+      
     ]
   };
 
@@ -84,15 +71,15 @@ const Header = () => {
           <div className="flex justify-between items-center py-4">
             {/* Logo */}
             <div className="flex items-center">
-              <Link to="/" className="text-2xl font-bold text-petrohost-blue">
-                Petrohost
+              <Link to="/">
+                <img src="/logo.png" alt="Logo" className="h-14 w-auto" />
               </Link>
             </div>
 
             {/* Desktop Navigation */}
             <nav className="hidden lg:flex space-x-8">
               <div 
-                className="relative"
+                className="relative group"
                 onMouseEnter={() => setActiveDropdown('Domínio')}
                 onMouseLeave={() => setActiveDropdown(null)}
               >
@@ -100,7 +87,7 @@ const Header = () => {
                   Domínio <ChevronDown size={16} className="ml-1" />
                 </Link>
                 {activeDropdown === 'Domínio' && (
-                  <div className="absolute top-full left-0 mt-2 w-48 bg-white border border-petrohost-borderGray rounded-lg shadow-lg py-2 z-50">
+                  <div className="absolute top-full left-0 mt-2 w-48 bg-white border border-petrohost-borderGray rounded-[3px] shadow-lg py-2 z-50">
                     {subMenuItems.Domínio.map((item) => (
                       <Link key={item.name} to={item.href} className="block px-4 py-2 text-petrohost-textGray hover:bg-petrohost-lightGray hover:text-petrohost-blue">
                         {item.name}
@@ -111,7 +98,7 @@ const Header = () => {
               </div>
 
               <div 
-                className="relative"
+                className="relative group"
                 onMouseEnter={() => setActiveDropdown('Hospedagem')}
                 onMouseLeave={() => setActiveDropdown(null)}
               >
@@ -119,32 +106,27 @@ const Header = () => {
                   Hospedagem <ChevronDown size={16} className="ml-1" />
                 </Link>
                 {activeDropdown === 'Hospedagem' && (
-                  <div className="absolute top-full left-0 mt-2 w-[600px] bg-white border border-petrohost-borderGray rounded-lg shadow-lg p-6 z-50">
-                    <div className="grid grid-cols-3 gap-8">
-                      {Object.entries(megaMenuItems).map(([category, items]) => (
-                        <div key={category}>
-                          <h4 className="font-bold text-petrohost-darkText mb-3">{category}</h4>
-                          <ul className="space-y-2">
-                            {items.map((item) => (
-                              <li key={item.name}>
-                                <Link to={item.href} className="text-petrohost-textGray hover:text-petrohost-blue flex items-center">
-                                  <span className="w-2 h-2 bg-petrohost-yellow rounded-full mr-2"></span>
-                                  {item.name}
-                                </Link>
-                              </li>
-                            ))}
-                          </ul>
-                        </div>
+                  <div className="absolute top-full left-0 mt-2 w-[400px] bg-white border border-petrohost-borderGray rounded-[3px] shadow-lg p-6 z-50">
+                    <div className="space-y-3">
+                      {megaMenuItems.map((item) => (
+                        <Link key={item.name} to={item.href} className="block text-petrohost-textGray hover:text-petrohost-blue">
+                          {item.name}
+                        </Link>
                       ))}
                     </div>
                   </div>
                 )}
               </div>
 
-              {['Email', 'Websites', 'Servidores'].map((menu) => (
+              {/* Email - Link simples sem submenu */}
+              <Link to="/email" className="text-petrohost-textGray hover:text-petrohost-blue font-medium transition-colors">
+                Email
+              </Link>
+
+              {['Websites', 'Servidores'].map((menu) => (
                 <div 
                   key={menu}
-                  className="relative"
+                  className="relative group"
                   onMouseEnter={() => setActiveDropdown(menu)}
                   onMouseLeave={() => setActiveDropdown(null)}
                 >
@@ -152,7 +134,7 @@ const Header = () => {
                     {menu} <ChevronDown size={16} className="ml-1" />
                   </Link>
                   {activeDropdown === menu && (
-                    <div className="absolute top-full left-0 mt-2 w-48 bg-white border border-petrohost-borderGray rounded-lg shadow-lg py-2 z-50">
+                    <div className="absolute top-full left-0 mt-2 w-48 bg-white border border-petrohost-borderGray rounded-[3px] shadow-lg py-2 z-50">
                       {subMenuItems[menu as keyof typeof subMenuItems]?.map((item) => (
                         <Link key={item.name} to={item.href} className="block px-4 py-2 text-petrohost-textGray hover:bg-petrohost-lightGray hover:text-petrohost-blue">
                           {item.name}
@@ -163,7 +145,24 @@ const Header = () => {
                 </div>
               ))}
 
-              <Link to="/sobre" className="text-petrohost-textGray hover:text-petrohost-blue font-medium transition-colors">Sobre</Link>
+              <div 
+                className="relative group"
+                onMouseEnter={() => setActiveDropdown('Sobre')}
+                onMouseLeave={() => setActiveDropdown(null)}
+              >
+                <Link to="/sobre" className="text-petrohost-textGray hover:text-petrohost-blue font-medium transition-colors flex items-center">
+                  Sobre <ChevronDown size={16} className="ml-1" />
+                </Link>
+                {activeDropdown === 'Sobre' && (
+                  <div className="absolute top-full left-0 mt-2 w-48 bg-white border border-petrohost-borderGray rounded-[3px] shadow-lg py-2 z-50">
+                    {subMenuItems.Sobre.map((item) => (
+                      <Link key={item.name} to={item.href} className="block px-4 py-2 text-petrohost-textGray hover:bg-petrohost-lightGray hover:text-petrohost-blue">
+                        {item.name}
+                      </Link>
+                    ))}
+                  </div>
+                )}
+              </div>
             </nav>
 
             {/* Actions */}
@@ -201,6 +200,7 @@ const Header = () => {
                 <Link to="/servidores" className="block text-petrohost-textGray hover:text-petrohost-blue font-medium">Servidores</Link>
                 <Link to="/sobre" className="block text-petrohost-textGray hover:text-petrohost-blue font-medium">Sobre</Link>
                 <Link to="/contato" className="block text-petrohost-textGray hover:text-petrohost-blue font-medium">Contato</Link>
+                <Link to="/login" className="block text-petrohost-blue font-bold">Entrar</Link>
               </div>
             </div>
           </div>
@@ -211,31 +211,36 @@ const Header = () => {
       <div className="bg-petrohost-blue hidden md:block">
         <div className="container mx-auto px-4">
           <div className="py-6">
-            {/* Campo de pesquisa alinhado à esquerda */}
-            <div className="flex items-center justify-start space-x-4 mb-4">
+            {/* Campo de pesquisa, botão e TLDs em uma única linha */}
+            <div className="flex items-center space-x-4">
               <input
                 type="text"
                 placeholder="Registre o seu domínio..."
-                className="w-80 px-4 py-3 rounded-lg border-0 text-petrohost-darkText"
+                className="w-[650px] px-4 py-3 rounded-[3px] border-0 text-petrohost-darkText"
               />
-              <button className="bg-petrohost-yellow text-petrohost-blue px-8 py-3 rounded-lg font-bold hover:bg-yellow-400 transition-colors">
+              <button className="bg-petrohost-yellow text-petrohost-blue px-8 py-3 rounded-[3px] font-bold hover:bg-yellow-400 transition-colors">
                 Pesquisar
               </button>
-            </div>
-            
-            {/* Cards de TLDs alinhados à esquerda */}
-            <div className="flex space-x-4">
-              <div className="bg-white rounded-lg p-3 text-center min-w-[120px]">
-                <div className="font-bold text-petrohost-darkText">.com</div>
-                <div className="text-xs text-petrohost-textGray">1 Ano / Grátis disponível para registro!</div>
+              <div className="bg-white rounded-[3px] p-3 min-w-[180px] flex items-center">
+                <img src="/ao.png" alt=".com" className="h-8 mr-3" />
+                <div className="flex flex-col">
+                  <span className="text-[8px] font-semibold text-petrohost-darkText leading-tight">Registra já</span>
+                  <span className="text-[8px] text-petrohost-textGray leading-tight">disponível para registrar!</span>
+                </div>
               </div>
-              <div className="bg-white rounded-lg p-3 text-center min-w-[120px]">
-                <div className="font-bold text-petrohost-darkText">.net</div>
-                <div className="text-xs text-petrohost-textGray">1 Ano / Grátis disponível para registro!</div>
+              <div className="bg-white rounded-[3px] p-3 min-w-[180px] flex items-center">
+                <img src="/net.png" alt=".net" className="h-8 mr-3" />
+                <div className="flex flex-col">
+                  <span className="text-[8px] font-semibold text-petrohost-darkText leading-tight">Registra já</span>
+                  <span className="text-[8px] text-petrohost-textGray leading-tight">disponível para registrar!</span>
+                </div>
               </div>
-              <div className="bg-white rounded-lg p-3 text-center min-w-[120px]">
-                <div className="font-bold text-petrohost-darkText">.co.ao</div>
-                <div className="text-xs text-petrohost-textGray">1 Ano / Grátis disponível para registro!</div>
+              <div className="bg-white rounded-[3px] p-3 min-w-[180px] flex items-center">
+                <img src="/com.png" alt=".co.ao" className="h-8 mr-3" />
+                <div className="flex flex-col">
+                  <span className="text-[8px] font-semibold text-petrohost-darkText leading-tight">Registra já</span>
+                  <span className="text-[8px] text-petrohost-textGray leading-tight">disponível para registrar!</span>
+                </div>
               </div>
             </div>
           </div>

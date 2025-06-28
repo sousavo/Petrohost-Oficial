@@ -1,46 +1,44 @@
+import { Rocket, MessageSquare, Share2, Clock } from "lucide-react";
+
+const differentials = [
+  {
+    icon: <Rocket size={36} className="text-petrohost-blue mb-4" />,
+    title: "Turbo até 20X mais rápido",
+    description: "Isso significa melhores classificações de SEO, menores taxas de rejeição e maiores taxas de conversão!"
+  },
+  {
+    icon: <MessageSquare size={36} className="text-petrohost-blue mb-4" />,
+    title: "Suporte da equipe Petrohost",
+    description: "Nossa equipe de suporte experiente e amigável está disponível 24 horas por dia, 7 dias por semana, 365 dias por ano para ajudar!"
+  },
+  {
+    icon: <Share2 size={36} className="text-petrohost-blue mb-4" />,
+    title: "Migração de conta gratuita",
+    description: "Já tem um site? Deixe-nos fazer o trabalho pesado para você e transfira-o gratuitamente! Pergunte-nos como!"
+  },
+  {
+    icon: <Clock size={36} className="text-petrohost-blue mb-4" />,
+    title: "Compromisso de 99,9% de tempo de atividade",
+    description: "Petrohost é o host em que você pode confiar, com servidores ultraconfiáveis!"
+  }
+];
 
 const DifferentialsGrid = () => {
-  const differentials = [
-    {
-      icon: "⚡",
-      title: "Turbo 20x mais rápido",
-      description: "Tecnologia SSD NVMe e cache avançado para máxima performance do seu site."
-    },
-    {
-      icon: "🛡️",
-      title: "Suporte Premium 24/7",
-      description: "Equipe técnica especializada sempre disponível para ajudar você."
-    },
-    {
-      icon: "🔒",
-      title: "Segurança Máxima",
-      description: "SSL grátis, firewall avançado e backup automático para proteger seus dados."
-    },
-    {
-      icon: "💎",
-      title: "Infraestrutura Premium",
-      description: "Servidores de última geração em datacenters certificados internacionalmente."
-    }
-  ];
-
   return (
-    <section className="bg-petrohost-blue py-20">
+    <section className="bg-gradient-to-br from-[#0a3a63] to-[#045488] py-16">
       <div className="container mx-auto px-4">
-        <div className="text-center text-white mb-12">
-          <h2 className="text-4xl lg:text-5xl font-bold mb-6">
-            O que nos torna únicos
+        <div className="text-center text-white mb-14">
+          <h2 className="text-3xl md:text-4xl lg:text-4xl font-bold mb-2">
+            Experimente a diferença da Petrohost
           </h2>
-          <p className="text-xl opacity-90 max-w-3xl mx-auto">
-            Combinamos tecnologia de ponta com atendimento humanizado para oferecer a melhor experiência em hospedagem.
-          </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10">
           {differentials.map((item, index) => (
-            <div key={index} className="bg-white rounded-2xl p-8 text-center hover:transform hover:scale-105 transition-all">
-              <div className="text-5xl mb-6">{item.icon}</div>
-              <h3 className="text-xl font-bold text-petrohost-darkText mb-4">{item.title}</h3>
-              <p className="text-petrohost-textGray">{item.description}</p>
+            <div key={index} className="bg-white rounded-[3px] p-8 text-left flex flex-col items-start shadow-sm">
+              {item.icon}
+              <h3 className="text-lg font-bold text-black mb-2">{item.title}</h3>
+              <p className="text-black text-base leading-relaxed">{item.description}</p>
             </div>
           ))}
         </div>

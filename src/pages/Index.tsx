@@ -1,6 +1,6 @@
-
 import Header from "../components/Header";
 import HeroSection from "../components/HeroSection";
+import HostingSection from "../components/HostingSection";
 import ProductCards from "../components/ProductCards";
 import AdvantagesSection from "../components/AdvantagesSection";
 import MetricsAndHosting from "../components/MetricsAndHosting";
@@ -13,9 +13,9 @@ const Index = () => {
     <div className="min-h-screen font-sans">
       <Header />
       <HeroSection />
-      <ProductCards />
-      <AdvantagesSection />
+      <HostingSection />
       <MetricsAndHosting />
+      <AdvantagesSection />
       <DifferentialsGrid />
       <LogoWall />
       <Footer />

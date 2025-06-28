@@ -1,56 +1,52 @@
-
 import { Facebook, Instagram, Linkedin } from 'lucide-react';
 
 const Footer = () => {
   const footerLinks = {
-    hospedagem: ["Hospedagem Compartilhada", "Hospedagem WordPress", "VPS Cloud", "Servidor Dedicado"],
-    solucoes: ["Domínios", "Email Profissional", "SSL Grátis", "Backup"],
-    apoiar: ["Central de Ajuda", "Documentação", "Tutoriais", "Status do Sistema"],
-    empresa: ["Sobre Nós", "Carreira", "Imprensa", "Parceiros"]
+    hospedagem: ["Hospedagem", "Hospedagem para Wordpress", "Hospedagem CPanel", "Hospedagem de Revenda"],
+    solucoes: ["Compra um Domínios", "Todos os Domínios", "Transferência de Domínios", "Certificados SSL", "Hospedagem VPS"],
+    apoiar: ["Login do Cliente", "Criar nova conta", "Abrir Ticket de suporte", "Denunciar Abuso", "Status de serviço"],
+    empresa: ["Sobre", "Contacto", "Blog", "Base de Conhecimento"]
   };
 
   return (
-    <footer className="bg-petrohost-blue">
-      {/* Área de Contato ("Dúvidas?") */}
-      <div className="container mx-auto px-4 py-20">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-          <div className="text-center lg:text-left">
-            <div className="bg-white rounded-2xl p-6 inline-block relative">
-              <div className="w-32 h-40 bg-gray-200 rounded-xl flex items-center justify-center text-gray-500">
-                Placeholder: agente-contato-24h.png
-              </div>
-              <div className="absolute -top-2 -right-2 bg-petrohost-yellow text-petrohost-blue px-3 py-1 rounded-full text-xs font-bold">
-                24h
-              </div>
-            </div>
+    <footer className="bg-gradient-to-br from-[#0a3a63] to-[#045488]">
+      {/* Área de Contato */}
+      <div className="container mx-auto px-4 pt-16 pb-0 mb-24">
+        <div className="flex flex-col md:flex-row items-center md:items-center gap-16 min-h-[340px]">
+          {/* Imagem à esquerda com borda branca e sombra */}
+          <div className="flex-shrink-0 flex justify-center md:justify-start w-full md:w-auto">
+            <img src="/support.png" alt="Atendimento 24h" className="w-[280px] h-[280px] object-cover rounded-[3px]" />
           </div>
-          
-          <div className="text-white">
-            <h2 className="text-4xl font-bold mb-6">Dúvidas?</h2>
-            <p className="text-xl mb-8 opacity-90">
-              Estamos aqui para ajudar. Nossa equipe está sempre pronta para encontrar 
-              a melhor solução para seu projeto.
+          {/* Texto e botão à direita, centralizado verticalmente */}
+          <div className="flex flex-col justify-center items-start w-full max-w-xl ml-auto">
+            <h2 className="text-3xl md:text-4xl font-bold text-white mb-2 leading-tight">
+              Dúvidas?<br />
+              <span className="block">Estamos aqui para ajudar.</span>
+            </h2>
+            <p className="text-white opacity-90 mb-7 max-w-lg text-base md:text-lg">
+              Nossa equipe técnica da Petrohost está disponível 24 horas por dia, 7 dias por semana, para ajudar você a entender qual plano funcionará melhor para suas necessidades específicas!
             </p>
-            <button className="bg-petrohost-yellow text-petrohost-blue px-8 py-4 rounded-lg font-bold text-lg hover:bg-yellow-400 transition-colors">
+            <a href="#" className="bg-yellow-400 text-black px-8 py-3 rounded-[3px] font-bold text-base hover:bg-yellow-300 transition-colors shadow min-w-[200px] text-center">
               Entre em contato
-            </button>
+            </a>
           </div>
         </div>
       </div>
-
+<br />
+<br />
+<br />
+<br />
+<br />
       {/* Navegação do Rodapé */}
-      <div className="container mx-auto px-4 py-16">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8">
+      <div className="container mx-auto px-4 pt-0 pb-16">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8 items-start">
           {/* Logo e Botão */}
-          <div>
-            <div className="text-2xl font-bold text-white mb-6">
-              Petrohost
-            </div>
-            <button className="bg-white text-petrohost-blue px-6 py-3 rounded-lg font-bold hover:bg-gray-100 transition-colors">
+          <div className="flex flex-col items-center md:items-start">
+            <img src="/logo2.png" alt="Petrohost" className="mb-6 w-40" />
+            <a href="#" className="bg-white text-[#045488] px-7 py-3 rounded-[3px] font-bold hover:bg-gray-100 transition-colors shadow text-center md:text-left min-w-[150px]">
               Entrar agora
-            </button>
+            </a>
           </div>
-
           {/* Hospedagem */}
           <div>
             <h4 className="text-white font-bold text-lg mb-4">Hospedagem</h4>
@@ -64,7 +60,6 @@ const Footer = () => {
               ))}
             </ul>
           </div>
-
           {/* Soluções */}
           <div>
             <h4 className="text-white font-bold text-lg mb-4">Soluções</h4>
@@ -78,7 +73,6 @@ const Footer = () => {
               ))}
             </ul>
           </div>
-
           {/* Apoiar */}
           <div>
             <h4 className="text-white font-bold text-lg mb-4">Apoiar</h4>
@@ -92,7 +86,6 @@ const Footer = () => {
               ))}
             </ul>
           </div>
-
           {/* Empresa */}
           <div>
             <h4 className="text-white font-bold text-lg mb-4">Empresa</h4>
@@ -116,13 +109,13 @@ const Footer = () => {
             {/* Redes Sociais & Telefone */}
             <div className="flex items-center space-x-6">
               <div className="flex space-x-3">
-                <a href="#" className="text-white hover:text-petrohost-yellow transition-colors">
+                <a href="#" className="text-white hover:text-yellow-400 transition-colors">
                   <Facebook size={20} />
                 </a>
-                <a href="#" className="text-white hover:text-petrohost-yellow transition-colors">
+                <a href="#" className="text-white hover:text-yellow-400 transition-colors">
                   <Linkedin size={20} />
                 </a>
-                <a href="#" className="text-white hover:text-petrohost-yellow transition-colors">
+                <a href="#" className="text-white hover:text-yellow-400 transition-colors">
                   <Instagram size={20} />
                 </a>
               </div>
@@ -130,22 +123,23 @@ const Footer = () => {
                 (+244) 923 000 143
               </div>
             </div>
-
             {/* Links Legais */}
             <div className="flex space-x-6 text-sm">
               <a href="#" className="text-white opacity-80 hover:opacity-100 transition-opacity">
-                Política de Privacidade
+                Garantia de Privacidade
               </a>
               <a href="#" className="text-white opacity-80 hover:opacity-100 transition-opacity">
-                Termos de Uso
+                Política de Uso Aceitável
               </a>
               <a href="#" className="text-white opacity-80 hover:opacity-100 transition-opacity">
-                Cookies
+                Declaração de Acessibilidade
+              </a>
+              <a href="#" className="text-white opacity-80 hover:opacity-100 transition-opacity">
+                Políticas
               </a>
             </div>
-
             {/* Copyright */}
-            <div className="text-white opacity-80 text-sm">
+            <div className="text-white opacity-80 text-sm text-center md:text-right">
               © 2025 hospedagem.com. Todos os direitos reservados.
             </div>
           </div>

@@ -1,4 +1,3 @@
-
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 
@@ -18,7 +17,7 @@ const Email = () => {
             </p>
           </div>
           
-          <div className="bg-petrohost-lightGray rounded-2xl p-12 text-center">
+          <div className="bg-petrohost-lightGray rounded-[3px] p-12 text-center">
             <h2 className="text-2xl font-bold text-petrohost-darkText mb-4">
               Página em Desenvolvimento
             </h2>
