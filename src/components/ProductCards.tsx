@@ -2,23 +2,23 @@
 const ProductCards = () => {
   const products = [
     {
-      title: "Hospedagem Compartilhada",
-      startingPrice: "R$ 9,90",
+      title: "E-mail profissional",
+      startingPrice: "12 500,00 Kz",
       isHighlighted: false
     },
     {
-      title: "Hospedagem WordPress",
-      startingPrice: "R$ 19,90",
+      title: "Hospedagem Compartilhada",
+      startingPrice: "15 000,00 Kz",
       isHighlighted: false
     },
     {
       title: "VPS Cloud",
-      startingPrice: "R$ 49,90",
+      startingPrice: "45 000,00 Kz",
       isHighlighted: true
     },
     {
       title: "Servidor Dedicado",
-      startingPrice: "R$ 199,90",
+      startingPrice: "120 000,00 Kz",
       isHighlighted: false
     }
   ];
@@ -30,28 +30,28 @@ const ProductCards = () => {
           {products.map((product, index) => (
             <div 
               key={index}
-              className={`rounded-2xl shadow-lg p-8 text-center transition-transform hover:scale-105 ${
+              className={`rounded-2xl p-8 text-center transition-transform hover:scale-105 ${
                 product.isHighlighted 
-                  ? 'bg-petrohost-blue text-white' 
-                  : 'bg-white text-gray-800'
+                  ? 'bg-petrohost-blue text-white shadow-xl' 
+                  : 'bg-white text-petrohost-darkText border border-petrohost-borderGray shadow-md'
               }`}
             >
               <h3 className="text-xl font-bold mb-4">{product.title}</h3>
-              <p className={`text-sm mb-2 ${product.isHighlighted ? 'text-gray-200' : 'text-gray-600'}`}>
+              <p className={`text-sm mb-2 ${product.isHighlighted ? 'text-gray-200' : 'text-petrohost-textGray'}`}>
                 Começando em
               </p>
-              <div className="text-3xl font-bold mb-6 text-petrohost-gold">
+              <div className="text-3xl font-bold mb-6 text-petrohost-yellow">
                 {product.startingPrice}
               </div>
               <a 
                 href="#" 
                 className={`inline-block font-medium transition-colors ${
                   product.isHighlighted 
-                    ? 'text-petrohost-gold hover:text-yellow-300' 
+                    ? 'text-petrohost-yellow hover:text-yellow-300' 
                     : 'text-petrohost-blue hover:text-blue-700'
                 }`}
               >
-                Saiba mais →
+                Saiba mas →
               </a>
             </div>
           ))}

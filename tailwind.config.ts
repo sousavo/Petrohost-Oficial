@@ -63,11 +63,14 @@ export default {
 					border: 'hsl(var(--sidebar-border))',
 					ring: 'hsl(var(--sidebar-ring))'
 				},
-				// Petrohost custom colors
+				// Petrohost cores exatas conforme especificação
 				petrohost: {
-					blue: '#1e3a5f', // Azul Primário (Petróleo)
-					gold: '#f59e0b', // Amarelo de Acento (Dourado)
-					lightGray: '#f8fafc', // Cinza Claro Neutro
+					blue: '#004269', // Azul Primário
+					yellow: '#FFB900', // Amarelo de Acento
+					lightGray: '#F7F8FA', // Cinza Claro de Fundo
+					borderGray: '#E0E0E0', // Cinza de Borda
+					textGray: '#4A4A4A', // Cinza de Texto
+					darkText: '#1D1D1F', // Preto/Cinza Escuro de Texto
 				}
 			},
 			borderRadius: {

@@ -11,17 +11,15 @@ const Footer = () => {
 
   return (
     <footer className="bg-petrohost-blue">
-      {/* Contact Section */}
+      {/* Área de Contato ("Dúvidas?") */}
       <div className="container mx-auto px-4 py-20">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
           <div className="text-center lg:text-left">
             <div className="bg-white rounded-2xl p-6 inline-block relative">
-              <img 
-                src="https://images.unsplash.com/photo-1618160702438-9b02ab6515c9?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" 
-                alt="Agente de suporte" 
-                className="w-32 h-40 object-cover rounded-xl"
-              />
-              <div className="absolute -top-2 -right-2 bg-petrohost-gold text-petrohost-blue px-3 py-1 rounded-full text-xs font-bold">
+              <div className="w-32 h-40 bg-gray-200 rounded-xl flex items-center justify-center text-gray-500">
+                Placeholder: agente-contato-24h.png
+              </div>
+              <div className="absolute -top-2 -right-2 bg-petrohost-yellow text-petrohost-blue px-3 py-1 rounded-full text-xs font-bold">
                 24h
               </div>
             </div>
@@ -30,20 +28,20 @@ const Footer = () => {
           <div className="text-white">
             <h2 className="text-4xl font-bold mb-6">Dúvidas?</h2>
             <p className="text-xl mb-8 opacity-90">
-              Nossa equipe está sempre pronta para ajudar você a encontrar 
+              Estamos aqui para ajudar. Nossa equipe está sempre pronta para encontrar 
               a melhor solução para seu projeto.
             </p>
-            <button className="bg-petrohost-gold text-petrohost-blue px-8 py-4 rounded-lg font-bold text-lg hover:bg-yellow-500 transition-colors">
+            <button className="bg-petrohost-yellow text-petrohost-blue px-8 py-4 rounded-lg font-bold text-lg hover:bg-yellow-400 transition-colors">
               Entre em contato
             </button>
           </div>
         </div>
       </div>
 
-      {/* Main Footer */}
+      {/* Navegação do Rodapé */}
       <div className="container mx-auto px-4 py-16">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8">
-          {/* Logo Column */}
+          {/* Logo e Botão */}
           <div>
             <div className="text-2xl font-bold text-white mb-6">
               Petrohost
@@ -111,29 +109,29 @@ const Footer = () => {
         </div>
       </div>
 
-      {/* Bottom Footer */}
+      {/* Barra Inferior do Rodapé */}
       <div className="border-t border-white border-opacity-20">
         <div className="container mx-auto px-4 py-6">
           <div className="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
-            {/* Social Media & Phone */}
+            {/* Redes Sociais & Telefone */}
             <div className="flex items-center space-x-6">
               <div className="flex space-x-3">
-                <a href="#" className="text-white hover:text-petrohost-gold transition-colors">
+                <a href="#" className="text-white hover:text-petrohost-yellow transition-colors">
                   <Facebook size={20} />
                 </a>
-                <a href="#" className="text-white hover:text-petrohost-gold transition-colors">
+                <a href="#" className="text-white hover:text-petrohost-yellow transition-colors">
                   <Linkedin size={20} />
                 </a>
-                <a href="#" className="text-white hover:text-petrohost-gold transition-colors">
+                <a href="#" className="text-white hover:text-petrohost-yellow transition-colors">
                   <Instagram size={20} />
                 </a>
               </div>
               <div className="text-white text-sm">
-                (11) 99999-9999
+                (+244) 923 000 143
               </div>
             </div>
 
-            {/* Legal Links */}
+            {/* Links Legais */}
             <div className="flex space-x-6 text-sm">
               <a href="#" className="text-white opacity-80 hover:opacity-100 transition-opacity">
                 Política de Privacidade
@@ -148,7 +146,7 @@ const Footer = () => {
 
             {/* Copyright */}
             <div className="text-white opacity-80 text-sm">
-              © 2024 Petrohost. Todos os direitos reservados.
+              © 2025 hospedagem.com. Todos os direitos reservados.
             </div>
           </div>
         </div>
