@@ -207,23 +207,23 @@ const Header = () => {
         )}
       </div>
 
-      {/* 2.1.3. Barra de Pesquisa de Domínio (Domain Search Bar) */}
+      {/* 2.1.3. Barra de Pesquisa de Domínio (Domain Search Bar) - Alinhada à esquerda */}
       <div className="bg-petrohost-blue hidden md:block">
         <div className="container mx-auto px-4">
-          <div className="py-6 flex flex-col items-center space-y-4">
-            {/* Campo de pesquisa */}
-            <div className="flex items-center space-x-4 w-full max-w-2xl">
+          <div className="py-6">
+            {/* Campo de pesquisa alinhado à esquerda */}
+            <div className="flex items-center justify-start space-x-4 mb-4">
               <input
                 type="text"
                 placeholder="Registre o seu domínio..."
-                className="flex-1 px-4 py-3 rounded-lg border-0 text-petrohost-darkText"
+                className="w-80 px-4 py-3 rounded-lg border-0 text-petrohost-darkText"
               />
               <button className="bg-petrohost-yellow text-petrohost-blue px-8 py-3 rounded-lg font-bold hover:bg-yellow-400 transition-colors">
                 Pesquisar
               </button>
             </div>
             
-            {/* Cards de TLDs */}
+            {/* Cards de TLDs alinhados à esquerda */}
             <div className="flex space-x-4">
               <div className="bg-white rounded-lg p-3 text-center min-w-[120px]">
                 <div className="font-bold text-petrohost-darkText">.com</div>

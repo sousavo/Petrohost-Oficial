@@ -2,6 +2,9 @@
 import Header from "../components/Header";
 import HeroSection from "../components/HeroSection";
 import ProductCards from "../components/ProductCards";
+import AdvantagesSection from "../components/AdvantagesSection";
+import MetricsAndHosting from "../components/MetricsAndHosting";
+import DifferentialsGrid from "../components/DifferentialsGrid";
 import LogoWall from "../components/LogoWall";
 import Footer from "../components/Footer";
 
@@ -11,6 +14,9 @@ const Index = () => {
       <Header />
       <HeroSection />
       <ProductCards />
+      <AdvantagesSection />
+      <MetricsAndHosting />
+      <DifferentialsGrid />
       <LogoWall />
       <Footer />
     </div>
