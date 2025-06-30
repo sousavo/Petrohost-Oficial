@@ -13,6 +13,7 @@ const Header = () => {
     available: boolean;
     price?: string;
     message?: string;
+    status?: string;
   } | null>(null);
   const [showSearchCard, setShowSearchCard] = useState(false);
 
@@ -44,32 +45,72 @@ const Header = () => {
     ]
   };
 
-  // Simular pesquisa de domínio (em produção, seria uma chamada API real)
+  // Função principal de pesquisa de domínio em tempo real
   const searchDomain = async (domain: string) => {
+    if (!domain.trim()) return;
+    
     setIsSearching(true);
     setShowSearchCard(true);
+    setSearchResult(null);
     
-    // Simular delay da API
-    await new Promise(resolve => setTimeout(resolve, 1500));
-    
-    // Simular resultado (70% chance de estar disponível)
-    const available = Math.random() > 0.3;
-    const result = {
-      domain: domain,
-      available: available,
-      price: available ? '2.500,00 Kz/ano' : undefined,
-      message: available ? undefined : 'Este domínio já está registrado'
-    };
-    
-    setSearchResult(result);
-    setIsSearching(false);
+    try {
+      // Simular chamada AJAX para o backend
+      console.log(`Verificando domínio: ${domain}`);
+      
+      // Simular delay da API (500ms como no código original)
+      await new Promise(resolve => setTimeout(resolve, 1500));
+      
+      // Simular resposta do servidor (70% chance de estar disponível)
+      const available = Math.random() > 0.3;
+      const result = {
+        domain: domain,
+        available: available,
+        status: available ? 'available' : 'unavailable',
+        price: available ? getRandomPrice() : undefined,
+        message: available ? undefined : 'Este domínio já está registrado ou não está disponível'
+      };
+      
+      setSearchResult(result);
+      
+      // Log para debug
+      console.log('Resultado da pesquisa:', result);
+      
+    } catch (error) {
+      console.error('Erro na pesquisa:', error);
+      setSearchResult({
+        domain: domain,
+        available: false,
+        status: 'error',
+        message: 'Erro de conexão. Tente novamente mais tarde.'
+      });
+    } finally {
+      setIsSearching(false);
+    }
+  };
+
+  // Função para gerar preços aleatórios (será substituída pelos preços reais)
+  const getRandomPrice = () => {
+    const prices = ['25.000,00 Kz/ano', '15.000,00 Kz/ano', '35.000,00 Kz/ano', '20.000,00 Kz/ano'];
+    return prices[Math.floor(Math.random() * prices.length)];
   };
 
   const handleDomainSearch = (e?: React.FormEvent) => {
     e?.preventDefault();
-    if (domainQuery.trim()) {
-      searchDomain(domainQuery.trim());
+    const cleanDomain = domainQuery.trim().toLowerCase();
+    
+    // Validação básica
+    if (cleanDomain.length < 4 || !cleanDomain.includes('.')) {
+      setSearchResult({
+        domain: cleanDomain,
+        available: false,
+        status: 'error',
+        message: 'Por favor, digite um nome de domínio válido (ex: meusite.com)'
+      });
+      setShowSearchCard(true);
+      return;
     }
+    
+    searchDomain(cleanDomain);
   };
 
   const closeSearchCard = () => {
@@ -131,7 +172,7 @@ const Header = () => {
                     Domínio <ChevronDown size={16} className="ml-1" />
                   </Link>
                   {activeDropdown === 'Domínio' && (
-                    <div className="absolute top-full left-0 mt-2 w-48 bg-white border border-petrohost-borderGray rounded-[3px] shadow-lg py-2 z-50">
+                    <div className="absolute top-full left-0 mt-2 w-48 bg-white border-[3px] border-petrohost-borderGray rounded-[3px] shadow-lg py-2 z-50">
                       {subMenuItems.Domínio.map((item) => (
                         <Link key={item.name} to={item.href} className="block px-4 py-2 text-petrohost-textGray hover:bg-petrohost-lightGray hover:text-petrohost-blue">
                           {item.name}
@@ -150,7 +191,7 @@ const Header = () => {
                     Hospedagem <ChevronDown size={16} className="ml-1" />
                   </Link>
                   {activeDropdown === 'Hospedagem' && (
-                    <div className="absolute top-full left-0 mt-2 w-[400px] bg-white border border-petrohost-borderGray rounded-[3px] shadow-lg p-6 z-50">
+                    <div className="absolute top-full left-0 mt-2 w-[400px] bg-white border-[3px] border-petrohost-borderGray rounded-[3px] shadow-lg p-6 z-50">
                       <div className="space-y-3">
                         {megaMenuItems.map((item) => (
                           <Link key={item.name} to={item.href} className="block text-petrohost-textGray hover:text-petrohost-blue">
@@ -162,7 +203,6 @@ const Header = () => {
                   )}
                 </div>
 
-                {/* Email - Link simples sem submenu */}
                 <Link to="/email" className="text-petrohost-textGray hover:text-petrohost-blue font-medium transition-colors">
                   Email
                 </Link>
@@ -178,7 +218,7 @@ const Header = () => {
                       {menu} <ChevronDown size={16} className="ml-1" />
                     </Link>
                     {activeDropdown === menu && (
-                      <div className="absolute top-full left-0 mt-2 w-48 bg-white border border-petrohost-borderGray rounded-[3px] shadow-lg py-2 z-50">
+                      <div className="absolute top-full left-0 mt-2 w-48 bg-white border-[3px] border-petrohost-borderGray rounded-[3px] shadow-lg py-2 z-50">
                         {subMenuItems[menu as keyof typeof subMenuItems]?.map((item) => (
                           <Link key={item.name} to={item.href} className="block px-4 py-2 text-petrohost-textGray hover:bg-petrohost-lightGray hover:text-petrohost-blue">
                             {item.name}
@@ -198,7 +238,7 @@ const Header = () => {
                     Sobre <ChevronDown size={16} className="ml-1" />
                   </Link>
                   {activeDropdown === 'Sobre' && (
-                    <div className="absolute top-full left-0 mt-2 w-48 bg-white border border-petrohost-borderGray rounded-[3px] shadow-lg py-2 z-50">
+                    <div className="absolute top-full left-0 mt-2 w-48 bg-white border-[3px] border-petrohost-borderGray rounded-[3px] shadow-lg py-2 z-50">
                       {subMenuItems.Sobre.map((item) => (
                         <Link key={item.name} to={item.href} className="block px-4 py-2 text-petrohost-textGray hover:bg-petrohost-lightGray hover:text-petrohost-blue">
                           {item.name}
@@ -213,12 +253,12 @@ const Header = () => {
               <div className="flex items-center space-x-4">
                 <ShoppingCart className="text-petrohost-textGray hover:text-petrohost-yellow cursor-pointer transition-colors" size={20} />
                 <Link to="/cliente" className="text-petrohost-textGray hover:text-petrohost-blue font-medium transition-colors">Área do Cliente</Link>
+                <Link to="/admin" className="text-petrohost-textGray hover:text-petrohost-blue font-medium transition-colors">Admin</Link>
                 <Link to="/login" className="text-petrohost-textGray hover:text-petrohost-blue font-medium transition-colors">Entrar</Link>
-                <div className="w-8 h-8 border border-petrohost-borderGray rounded-full flex items-center justify-center">
+                <div className="w-8 h-8 border-[3px] border-petrohost-borderGray rounded-full flex items-center justify-center">
                   <User className="text-petrohost-textGray hover:text-petrohost-yellow cursor-pointer transition-colors" size={16} />
                 </div>
                 
-                {/* Mobile Menu Button */}
                 <button 
                   className="lg:hidden"
                   onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
@@ -246,6 +286,7 @@ const Header = () => {
                   <Link to="/sobre" className="block text-petrohost-textGray hover:text-petrohost-blue font-medium">Sobre</Link>
                   <Link to="/contato" className="block text-petrohost-textGray hover:text-petrohost-blue font-medium">Contato</Link>
                   <Link to="/cliente" className="block text-petrohost-textGray hover:text-petrohost-blue font-medium">Área do Cliente</Link>
+                  <Link to="/admin" className="block text-petrohost-textGray hover:text-petrohost-blue font-medium">Admin</Link>
                   <Link to="/login" className="block text-petrohost-blue font-bold">Entrar</Link>
                 </div>
               </div>
@@ -253,41 +294,43 @@ const Header = () => {
           )}
         </div>
 
-        {/* 2.1.3. Barra de Pesquisa de Domínio (Domain Search Bar) - Alinhada à esquerda */}
+        {/* 2.1.3. Barra de Pesquisa de Domínio */}
         <div className="bg-petrohost-blue hidden md:block">
           <div className="container mx-auto px-4">
             <div className="py-6">
-              {/* Campo de pesquisa, botão e TLDs em uma única linha */}
-              <form onSubmit={handleDomainSearch} className="flex items-center space-x-4">
-                <input
-                  type="text"
-                  placeholder="Registre o seu domínio..."
-                  value={domainQuery}
-                  onChange={(e) => setDomainQuery(e.target.value)}
-                  className="w-[650px] px-4 py-3 rounded-[3px] border-0 text-petrohost-darkText"
-                />
+              <form onSubmit={handleDomainSearch} className="flex items-start space-x-4">
+                <div className="flex-1 max-w-[650px]">
+                  <input
+                    type="text"
+                    placeholder="Registre o seu domínio..."
+                    value={domainQuery}
+                    onChange={(e) => setDomainQuery(e.target.value)}
+                    className="w-full px-4 py-3 rounded-[3px] border-[3px] border-transparent focus:border-petrohost-yellow text-petrohost-darkText outline-none transition-colors"
+                  />
+                </div>
                 <button 
                   type="submit"
-                  className="bg-petrohost-yellow text-petrohost-blue px-8 py-3 rounded-[3px] font-bold hover:bg-yellow-400 transition-colors flex items-center gap-2"
+                  disabled={isSearching}
+                  className="bg-petrohost-yellow text-petrohost-blue px-8 py-3 rounded-[3px] font-bold hover:bg-yellow-400 transition-colors flex items-center gap-2 disabled:opacity-50"
                 >
-                  <Search size={18} />
-                  Pesquisar
+                  {isSearching ? <Loader2 className="animate-spin" size={18} /> : <Search size={18} />}
+                  {isSearching ? 'Pesquisando...' : 'Pesquisar'}
                 </button>
-                <div className="bg-white rounded-[3px] p-3 min-w-[180px] flex items-center">
+                <div className="bg-white rounded-[3px] border-[3px] border-white p-3 min-w-[180px] flex items-center">
                   <img src="/ao.png" alt=".ao" className="h-8 mr-3" />
                   <div className="flex flex-col">
                     <span className="text-[8px] font-semibold text-petrohost-darkText leading-tight">Registra já</span>
                     <span className="text-[8px] text-petrohost-textGray leading-tight">disponível para registrar!</span>
                   </div>
                 </div>
-                <div className="bg-white rounded-[3px] p-3 min-w-[180px] flex items-center">
+                <div className="bg-white rounded-[3px] border-[3px] border-white p-3 min-w-[180px] flex items-center">
                   <img src="/net.png" alt=".net" className="h-8 mr-3" />
                   <div className="flex flex-col">
                     <span className="text-[8px] font-semibold text-petrohost-darkText leading-tight">Registra já</span>
                     <span className="text-[8px] text-petrohost-textGray leading-tight">disponível para registrar!</span>
                   </div>
                 </div>
-                <div className="bg-white rounded-[3px] p-3 min-w-[180px] flex items-center">
+                <div className="bg-white rounded-[3px] border-[3px] border-white p-3 min-w-[180px] flex items-center">
                   <img src="/com.png" alt=".com" className="h-8 mr-3" />
                   <div className="flex flex-col">
                     <span className="text-[8px] font-semibold text-petrohost-darkText leading-tight">Registra já</span>
@@ -310,7 +353,7 @@ const Header = () => {
           />
           
           {/* Card */}
-          <div className={`fixed bottom-0 left-0 right-0 bg-white rounded-t-[20px] shadow-2xl z-[70] transition-transform duration-500 ${showSearchCard ? 'translate-y-0' : 'translate-y-full'}`}>
+          <div className={`fixed bottom-0 left-0 right-0 bg-white rounded-t-[20px] shadow-2xl z-[70] transition-transform duration-500 border-t-[3px] border-petrohost-blue ${showSearchCard ? 'translate-y-0' : 'translate-y-full'}`}>
             <div className="p-8 max-w-2xl mx-auto">
               {/* Header do Card */}
               <div className="flex justify-between items-center mb-6">
@@ -328,56 +371,65 @@ const Header = () => {
                 {isSearching ? (
                   <div className="py-12">
                     <Loader2 className="animate-spin mx-auto mb-4 text-petrohost-blue" size={48} />
-                    <p className="text-petrohost-textGray text-lg">Verificando disponibilidade de <strong>{domainQuery}</strong>...</p>
+                    <p className="text-petrohost-textGray text-lg">Verificando <strong>{domainQuery}</strong>...</p>
                   </div>
                 ) : searchResult ? (
                   <div className="py-8">
-                    {searchResult.available ? (
-                      <div>
+                    {searchResult.status === 'available' ? (
+                      <div className="border-[3px] border-green-500 rounded-[3px] p-6 bg-green-50">
                         <Check className="mx-auto mb-4 text-green-500" size={64} />
-                        <h4 className="text-2xl font-bold text-green-600 mb-2">Domínio Disponível!</h4>
+                        <h4 className="text-2xl font-bold text-green-600 mb-2">🎉 Parabéns!</h4>
                         <p className="text-petrohost-textGray text-lg mb-6">
-                          <strong>{searchResult.domain}</strong> está disponível para registro.
+                          O domínio <strong>{searchResult.domain}</strong> está disponível para registro!
                         </p>
                         {searchResult.price && (
-                          <div className="bg-petrohost-lightGray rounded-[3px] p-6 mb-6">
+                          <div className="bg-white rounded-[3px] border-[3px] border-green-200 p-6 mb-6">
                             <p className="text-petrohost-darkText text-xl font-bold">
                               Preço: {searchResult.price}
                             </p>
                           </div>
                         )}
                         <div className="flex gap-4 justify-center">
-                          <button className="bg-petrohost-blue text-white px-8 py-3 rounded-[3px] font-bold hover:opacity-90 transition-colors">
+                          <button className="bg-green-500 text-white px-8 py-3 rounded-[3px] border-[3px] border-green-500 font-bold hover:bg-green-600 transition-colors">
                             Registrar Agora
                           </button>
                           <button 
                             onClick={closeSearchCard}
-                            className="border border-petrohost-borderGray text-petrohost-textGray px-8 py-3 rounded-[3px] font-bold hover:bg-petrohost-lightGray transition-colors"
+                            className="border-[3px] border-petrohost-borderGray text-petrohost-textGray px-8 py-3 rounded-[3px] font-bold hover:bg-petrohost-lightGray transition-colors"
                           >
                             Fechar
                           </button>
                         </div>
                       </div>
                     ) : (
-                      <div>
+                      <div className="border-[3px] border-red-500 rounded-[3px] p-6 bg-red-50">
                         <AlertCircle className="mx-auto mb-4 text-red-500" size={64} />
-                        <h4 className="text-2xl font-bold text-red-600 mb-2">Domínio Indisponível</h4>
+                        <h4 className="text-2xl font-bold text-red-600 mb-2">
+                          {searchResult.status === 'error' ? 'Erro na Pesquisa' : '🙁 Que pena!'}
+                        </h4>
                         <p className="text-petrohost-textGray text-lg mb-6">
-                          <strong>{searchResult.domain}</strong>: {searchResult.message}
+                          {searchResult.status === 'error' ? (
+                            searchResult.message
+                          ) : (
+                            <>O domínio <strong>{searchResult.domain}</strong> não está disponível.</>
+                          )}
                         </p>
+                        {searchResult.message && searchResult.status !== 'error' && (
+                          <p className="text-sm text-petrohost-textGray mb-4">{searchResult.message}</p>
+                        )}
                         <div className="flex gap-4 justify-center">
                           <button 
                             onClick={() => {
                               setSearchResult(null);
                               setDomainQuery('');
                             }}
-                            className="bg-petrohost-blue text-white px-8 py-3 rounded-[3px] font-bold hover:opacity-90 transition-colors"
+                            className="bg-petrohost-blue text-white px-8 py-3 rounded-[3px] border-[3px] border-petrohost-blue font-bold hover:opacity-90 transition-colors"
                           >
                             Tentar Outro Domínio
                           </button>
                           <button 
                             onClick={closeSearchCard}
-                            className="border border-petrohost-borderGray text-petrohost-textGray px-8 py-3 rounded-[3px] font-bold hover:bg-petrohost-lightGray transition-colors"
+                            className="border-[3px] border-petrohost-borderGray text-petrohost-textGray px-8 py-3 rounded-[3px] font-bold hover:bg-petrohost-lightGray transition-colors"
                           >
                             Fechar
                           </button>
