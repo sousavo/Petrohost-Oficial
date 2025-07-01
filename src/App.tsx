@@ -19,6 +19,7 @@ import Login from "./pages/Login";
 import Registro from "./pages/Registro";
 import Cliente from "./pages/Cliente";
 import Admin from "./pages/Admin";
+import Checkout from "./pages/Checkout";
 
 const queryClient = new QueryClient();
 
