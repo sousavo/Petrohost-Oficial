@@ -138,9 +138,9 @@ const ProductCard: React.FC<ProductCardProps> = ({
             </label>
             <div className="flex items-center justify-center gap-4">
               <button
-                onClick={() => setQuantity(Math.max(1, quantity - 1))}
-                className="w-10 h-10 bg-petrohost-blue text-white rounded-lg flex items-center justify-center hover:bg-blue-700"
-                disabled={quantity <= 1}
+                onClick={() => setQuantity(Math.max(2, quantity - 1))}
+                className="w-10 h-10 bg-petrohost-blue text-white rounded-lg flex items-center justify-center hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed"
+                disabled={quantity <= 2}
               >
                 <Minus size={16} />
               </button>
