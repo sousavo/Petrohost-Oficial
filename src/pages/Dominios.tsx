@@ -2,97 +2,95 @@
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 import { useState } from "react";
-import { Search, Loader2, Check, AlertCircle, X } from "lucide-react";
+import { Search, Loader2, Check, AlertCircle, X, Globe, Mail } from "lucide-react";
 import { Link } from "react-router-dom";
 
 const Dominios = () => {
   const [domainQuery, setDomainQuery] = useState('');
   const [isSearching, setIsSearching] = useState(false);
-  const [searchResult, setSearchResult] = useState<{
-    domain: string;
-    available: boolean;
-    price?: string;
-    message?: string;
-    status?: string;
+  const [searchResults, setSearchResults] = useState<{
+    domainName: string;
+    extensions: {
+      extension: string;
+      available: boolean;
+      price: string;
+      priceValue: number;
+    }[];
   } | null>(null);
-  const [showResult, setShowResult] = useState(false);
+  const [showResults, setShowResults] = useState(false);
 
-  // Simular verificação de usuário logado - você pode integrar com seu sistema de auth
-  const isUserLoggedIn = true; // Mude para false para testar estado deslogado
+  // Simular verificação de usuário logado
+  const isUserLoggedIn = true;
 
-  // Função para verificar domínio usando DNS lookup
-  const checkDomainAvailability = async (domain: string) => {
+  // Lista de extensões e preços
+  const extensions = [
+    { ext: '.ao', price: '25.000,00 Kz', value: 25000 },
+    { ext: '.co.ao', price: '35.000,00 Kz', value: 35000 },
+    { ext: '.edu.ao', price: '35.000,00 Kz', value: 35000 },
+    { ext: '.it.ao', price: '5.000,00 Kz', value: 5000 },
+    { ext: '.com', price: '21.500,00 Kz', value: 21500 },
+    { ext: '.net', price: '25.500,00 Kz', value: 25500 },
+    { ext: '.org', price: '35.000,00 Kz', value: 35000 },
+    { ext: '.info', price: '16.000,00 Kz', value: 16000 }
+  ];
+
+  // Função para verificar múltiplas extensões
+  const checkMultipleDomains = async (domainName: string) => {
     try {
-      // Simular verificação DNS - em produção, isso seria feito via backend
-      console.log(`Verificando DNS para: ${domain}`);
+      console.log(`Verificando domínio: ${domainName} com múltiplas extensões`);
       
-      // Simular delay de verificação DNS
+      // Simular delay de verificação DNS para cada extensão
       await new Promise(resolve => setTimeout(resolve, 2000));
       
-      // Simular resposta baseada em verificação DNS
-      // 60% chance de estar disponível para demonstração
-      const available = Math.random() > 0.4;
+      // Simular verificação para cada extensão
+      const results = extensions.map(ext => ({
+        extension: ext.ext,
+        available: Math.random() > 0.4, // 60% chance de estar disponível
+        price: ext.price,
+        priceValue: ext.value
+      }));
       
       return {
-        domain: domain,
-        available: available,
-        status: available ? 'available' : 'unavailable',
-        price: available ? getDomainPrice(domain) : undefined,
-        message: available ? undefined : 'Este domínio já está registrado ou possui DNS ativo'
+        domainName: domainName,
+        extensions: results
       };
       
     } catch (error) {
       console.error('Erro na verificação DNS:', error);
       return {
-        domain: domain,
-        available: false,
-        status: 'error',
-        message: 'Erro na verificação. Tente novamente.'
+        domainName: domainName,
+        extensions: extensions.map(ext => ({
+          extension: ext.ext,
+          available: false,
+          price: ext.price,
+          priceValue: ext.value
+        }))
       };
     }
-  };
-
-  // Função para obter preço baseado na extensão
-  const getDomainPrice = (domain: string) => {
-    const extension = domain.split('.').pop()?.toLowerCase();
-    const prices: { [key: string]: string } = {
-      'ao': '25.000,00 Kz/ano',
-      'com': '15.000,00 Kz/ano', 
-      'net': '18.000,00 Kz/ano',
-      'org': '20.000,00 Kz/ano',
-      'co': '22.000,00 Kz/ano'
-    };
-    return prices[extension || 'com'] || '15.000,00 Kz/ano';
   };
 
   const handleDomainSearch = async (e?: React.FormEvent) => {
     e?.preventDefault();
     const cleanDomain = domainQuery.trim().toLowerCase();
     
-    // Validação básica
-    if (cleanDomain.length < 4 || !cleanDomain.includes('.')) {
-      setSearchResult({
-        domain: cleanDomain,
-        available: false,
-        status: 'error',
-        message: 'Por favor, digite um nome de domínio válido (ex: meusite.com)'
-      });
-      setShowResult(true);
+    // Validação básica - apenas nome do domínio, sem extensão
+    if (cleanDomain.length < 2 || cleanDomain.includes('.')) {
+      alert('Digite apenas o nome do domínio, sem extensão (ex: meusite)');
       return;
     }
     
     setIsSearching(true);
-    setShowResult(true);
-    setSearchResult(null);
+    setShowResults(true);
+    setSearchResults(null);
     
-    const result = await checkDomainAvailability(cleanDomain);
-    setSearchResult(result);
+    const result = await checkMultipleDomains(cleanDomain);
+    setSearchResults(result);
     setIsSearching(false);
   };
 
-  const closeResult = () => {
-    setShowResult(false);
-    setSearchResult(null);
+  const closeResults = () => {
+    setShowResults(false);
+    setSearchResults(null);
     setIsSearching(false);
   };
 
@@ -159,7 +157,7 @@ const Dominios = () => {
               Registre o Seu <span className="text-petrohost-blue">Domínio</span>
             </h1>
             <p className="text-xl text-petrohost-textGray max-w-3xl mx-auto">
-              Encontre e registre o nome de domínio ideal para a sua marca. Verificação em tempo real!
+              Digite apenas o nome do domínio e verificaremos todas as extensões disponíveis!
             </p>
           </div>
 
@@ -172,7 +170,7 @@ const Dominios = () => {
                     type="text"
                     value={domainQuery}
                     onChange={(e) => setDomainQuery(e.target.value)}
-                    placeholder="Digite o domínio que deseja verificar (ex: meusite.com)"
+                    placeholder="Digite apenas o nome (ex: meusite)"
                     className="w-full px-6 py-4 text-lg border-[3px] border-gray-200 rounded-lg focus:border-petrohost-blue focus:outline-none transition-colors"
                   />
                 </div>
@@ -182,37 +180,31 @@ const Dominios = () => {
                   className="bg-petrohost-blue text-white px-8 py-4 rounded-lg font-bold text-lg hover:bg-blue-700 transition-colors flex items-center gap-2 disabled:opacity-50"
                 >
                   {isSearching ? <Loader2 className="animate-spin" size={20} /> : <Search size={20} />}
-                  {isSearching ? 'Verificando...' : 'Verificar'}
+                  {isSearching ? 'Verificando...' : 'Verificar Todas'}
                 </button>
               </div>
 
               <div className="mt-4 text-center text-sm text-petrohost-textGray">
-                <p>💡 <strong>Dica:</strong> A verificação é feita em tempo real através de consulta DNS</p>
+                <p>🔍 <strong>Verificação inteligente:</strong> Digite apenas o nome e verificaremos todas as extensões automaticamente</p>
               </div>
             </form>
           </div>
 
           {/* Extensões Populares */}
-          <div className="max-w-4xl mx-auto">
+          <div className="max-w-6xl mx-auto">
             <h2 className="text-2xl font-bold text-petrohost-darkText text-center mb-8">
-              Extensões Mais Populares
+              Extensões Disponíveis e Preços
             </h2>
-            <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
-              {[
-                { ext: '.ao', price: '25.000,00 Kz', popular: true },
-                { ext: '.com', price: '15.000,00 Kz', popular: true },
-                { ext: '.net', price: '18.000,00 Kz', popular: false },
-                { ext: '.org', price: '20.000,00 Kz', popular: false },
-                { ext: '.co', price: '22.000,00 Kz', popular: false }
-              ].map((item) => (
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+              {extensions.map((item) => (
                 <div 
                   key={item.ext}
                   className={`bg-white rounded-lg border-[3px] p-4 text-center transition-all hover:scale-105 cursor-pointer ${
-                    item.popular ? 'border-petrohost-blue shadow-md' : 'border-gray-200'
+                    item.ext === '.ao' || item.ext === '.com' ? 'border-petrohost-blue shadow-md' : 'border-gray-200'
                   }`}
-                  onClick={() => setDomainQuery(`meusite${item.ext}`)}
+                  onClick={() => setDomainQuery(`exemplo${item.ext}`)}
                 >
-                  {item.popular && (
+                  {(item.ext === '.ao' || item.ext === '.com') && (
                     <span className="bg-petrohost-blue text-white text-xs px-2 py-1 rounded-full mb-2 inline-block">
                       Popular
                     </span>
@@ -223,109 +215,123 @@ const Dominios = () => {
               ))}
             </div>
           </div>
+
+          {/* Links para outros produtos */}
+          <div className="max-w-4xl mx-auto mt-16">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <Link to="/hospedagem" className="bg-gradient-to-r from-blue-500 to-blue-600 text-white p-6 rounded-lg hover:from-blue-600 hover:to-blue-700 transition-all">
+                <Globe className="mb-4" size={32} />
+                <h3 className="text-xl font-bold mb-2">Hospedagem</h3>
+                <p>Escolha o plano perfeito para hospedar o seu sistema</p>
+              </Link>
+              <Link to="/email" className="bg-gradient-to-r from-green-500 to-green-600 text-white p-6 rounded-lg hover:from-green-600 hover:to-green-700 transition-all">
+                <Mail className="mb-4" size={32} />
+                <h3 className="text-xl font-bold mb-2">Email Profissional</h3>
+                <p>Planos de email profissional para sua empresa</p>
+              </Link>
+            </div>
+          </div>
         </div>
       </main>
 
       {/* Resultado da Pesquisa - Modal */}
-      {showResult && (
+      {showResults && (
         <>
           <div 
             className="fixed inset-0 bg-black bg-opacity-50 z-[60] transition-opacity duration-300"
-            onClick={closeResult}
+            onClick={closeResults}
           />
           
-          <div className="fixed bottom-0 left-0 right-0 bg-white rounded-t-[20px] shadow-2xl z-[70] transition-transform duration-500 border-t-[3px] border-petrohost-blue">
-            <div className="p-8 max-w-2xl mx-auto">
+          <div className="fixed inset-4 bg-white rounded-[20px] shadow-2xl z-[70] overflow-y-auto">
+            <div className="p-8">
               <div className="flex justify-between items-center mb-6">
-                <h3 className="text-2xl font-bold text-petrohost-darkText">Resultado da Verificação</h3>
+                <h3 className="text-3xl font-bold text-petrohost-darkText">
+                  🔍 Resultado da Verificação
+                </h3>
                 <button 
-                  onClick={closeResult}
+                  onClick={closeResults}
                   className="text-petrohost-textGray hover:text-petrohost-darkText transition-colors"
                 >
-                  <X size={24} />
+                  <X size={32} />
                 </button>
               </div>
 
-              <div className="text-center">
-                {isSearching ? (
-                  <div className="py-12">
-                    <Loader2 className="animate-spin mx-auto mb-4 text-petrohost-blue" size={48} />
-                    <p className="text-petrohost-textGray text-lg">
-                      🔍 Verificando DNS para <strong>{domainQuery}</strong>...
-                    </p>
-                    <p className="text-sm text-petrohost-textGray mt-2">
-                      Consultando servidores de nome e registros DNS
-                    </p>
+              {isSearching ? (
+                <div className="text-center py-12">
+                  <Loader2 className="animate-spin mx-auto mb-4 text-petrohost-blue" size={64} />
+                  <p className="text-petrohost-textGray text-xl">
+                    🔍 Verificando <strong>{domainQuery}</strong> em todas as extensões...
+                  </p>
+                  <p className="text-sm text-petrohost-textGray mt-2">
+                    Consultando servidores de nome e registros DNS
+                  </p>
+                </div>
+              ) : searchResults ? (
+                <div>
+                  <div className="text-center mb-8">
+                    <h4 className="text-2xl font-bold text-petrohost-darkText mb-2">
+                      Domínio: <span className="text-petrohost-blue">{searchResults.domainName}</span>
+                    </h4>
+                    <p className="text-petrohost-textGray">Resultados para todas as extensões:</p>
                   </div>
-                ) : searchResult ? (
-                  <div className="py-8">
-                    {searchResult.status === 'available' ? (
-                      <div className="border-[3px] border-green-500 rounded-lg p-6 bg-green-50">
-                        <Check className="mx-auto mb-4 text-green-500" size={64} />
-                        <h4 className="text-2xl font-bold text-green-600 mb-2">🎉 Disponível!</h4>
-                        <p className="text-petrohost-textGray text-lg mb-6">
-                          O domínio <strong>{searchResult.domain}</strong> está disponível para registro!
-                        </p>
-                        {searchResult.price && (
-                          <div className="bg-white rounded-lg border-[3px] border-green-200 p-6 mb-6">
-                            <p className="text-petrohost-darkText text-xl font-bold">
-                              💰 Preço: {searchResult.price}
-                            </p>
-                          </div>
-                        )}
-                        <div className="flex gap-4 justify-center">
-                          <Link 
-                            to={`/checkout/${searchResult.domain}`}
-                            className="bg-green-500 text-white px-8 py-3 rounded-lg font-bold hover:bg-green-600 transition-colors"
-                          >
-                            🛒 Comprar Agora
-                          </Link>
-                          <button 
-                            onClick={closeResult}
-                            className="border-[3px] border-gray-300 text-petrohost-textGray px-8 py-3 rounded-lg font-bold hover:bg-gray-100 transition-colors"
-                          >
-                            Fechar
-                          </button>
-                        </div>
-                      </div>
-                    ) : (
-                      <div className="border-[3px] border-red-500 rounded-lg p-6 bg-red-50">
-                        <AlertCircle className="mx-auto mb-4 text-red-500" size={64} />
-                        <h4 className="text-2xl font-bold text-red-600 mb-2">
-                          {searchResult.status === 'error' ? '⚠️ Erro' : '🔒 Indisponível'}
-                        </h4>
-                        <p className="text-petrohost-textGray text-lg mb-6">
-                          {searchResult.status === 'error' ? (
-                            searchResult.message
+
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    {searchResults.extensions.map((result, idx) => (
+                      <div 
+                        key={idx} 
+                        className={`p-6 rounded-lg border-[3px] ${
+                          result.available 
+                            ? 'border-green-500 bg-green-50' 
+                            : 'border-red-500 bg-red-50'
+                        }`}
+                      >
+                        <div className="text-center">
+                          {result.available ? (
+                            <Check className="mx-auto mb-3 text-green-500" size={32} />
                           ) : (
-                            <>O domínio <strong>{searchResult.domain}</strong> não está disponível.</>
+                            <AlertCircle className="mx-auto mb-3 text-red-500" size={32} />
                           )}
-                        </p>
-                        {searchResult.message && searchResult.status !== 'error' && (
-                          <p className="text-sm text-petrohost-textGray mb-4">{searchResult.message}</p>
-                        )}
-                        <div className="flex gap-4 justify-center">
-                          <button 
-                            onClick={() => {
-                              setSearchResult(null);
-                              setDomainQuery('');
-                            }}
-                            className="bg-petrohost-blue text-white px-8 py-3 rounded-lg font-bold hover:bg-blue-700 transition-colors"
-                          >
-                            🔍 Tentar Outro
-                          </button>
-                          <button 
-                            onClick={closeResult}
-                            className="border-[3px] border-gray-300 text-petrohost-textGray px-8 py-3 rounded-lg font-bold hover:bg-gray-100 transition-colors"
-                          >
-                            Fechar
-                          </button>
+                          
+                          <h5 className="text-xl font-bold mb-2">
+                            {searchResults.domainName}{result.extension}
+                          </h5>
+                          
+                          <p className={`text-lg font-semibold mb-4 ${
+                            result.available ? 'text-green-600' : 'text-red-600'
+                          }`}>
+                            {result.available ? '✅ Disponível' : '❌ Indisponível'}
+                          </p>
+                          
+                          {result.available && (
+                            <>
+                              <div className="bg-white rounded-lg border-[2px] border-green-200 p-4 mb-4">
+                                <p className="text-petrohost-darkText text-lg font-bold">
+                                  💰 {result.price}
+                                </p>
+                              </div>
+                              <Link 
+                                to={`/checkout/${searchResults.domainName}${result.extension}`}
+                                className="bg-green-500 text-white px-6 py-3 rounded-lg font-bold hover:bg-green-600 transition-colors inline-block w-full"
+                              >
+                                🛒 Comprar Agora
+                              </Link>
+                            </>
+                          )}
                         </div>
                       </div>
-                    )}
+                    ))}
                   </div>
-                ) : null}
-              </div>
+
+                  <div className="text-center mt-8">
+                    <button 
+                      onClick={closeResults}
+                      className="bg-petrohost-blue text-white px-8 py-3 rounded-lg font-bold hover:bg-blue-700 transition-colors"
+                    >
+                      Fazer Nova Pesquisa
+                    </button>
+                  </div>
+                </div>
+              ) : null}
             </div>
           </div>
         </>
