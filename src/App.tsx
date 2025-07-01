@@ -40,6 +40,9 @@ const App = () => (
             <Route path="/planos" element={<Planos />} />
             <Route path="/configurar-plano" element={<ConfigurarPlano />} />
             <Route path="/dominios" element={<Dominios />} />
+            <Route path="/pesquisar-dominios" element={<PesquisarDominios />} />
+            <Route path="/area-cliente" element={<AreaCliente />} />
+            <Route path="/area-admin" element={<AreaAdmin />} />
             <Route path="/checkout/:dominio" element={<Checkout />} />
             <Route path="/carrinho-checkout" element={<CarrinhoCheckout />} />
             <Route path="/email" element={<Email />} />
