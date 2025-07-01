@@ -379,7 +379,7 @@ const Header = () => {
                   <div className="py-6 md:py-8">
                     {searchResult.status === 'available' ? (
                       <div className="border-[3px] border-green-500 rounded-[3px] p-4 md:p-6 bg-green-50">
-                        <Check className="mx-auto mb-4 text-green-500" size={48} md:size={64} />
+                        <Check className="mx-auto mb-4 text-green-500" size={48} />
                         <h4 className="text-xl md:text-2xl font-bold text-green-600 mb-2">🎉 Parabéns!</h4>
                         <p className="text-petrohost-textGray text-base md:text-lg mb-4 md:mb-6">
                           O domínio <strong>{searchResult.domain}</strong> está disponível para registro!
@@ -405,7 +405,7 @@ const Header = () => {
                       </div>
                     ) : (
                       <div className="border-[3px] border-red-500 rounded-[3px] p-4 md:p-6 bg-red-50">
-                        <AlertCircle className="mx-auto mb-4 text-red-500" size={48} md:size={64} />
+                        <AlertCircle className="mx-auto mb-4 text-red-500" size={48} />
                         <h4 className="text-xl md:text-2xl font-bold text-red-600 mb-2">
                           {searchResult.status === 'error' ? 'Erro na Pesquisa' : '🙁 Que pena!'}
                         </h4>
