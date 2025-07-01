@@ -1,7 +1,6 @@
-
 import Header from "../components/Header";
 import Footer from "../components/Footer";
-import { Check, Mail, Calendar, Shield, Sync, ArrowRight } from "lucide-react";
+import { Check, Mail, Calendar, Shield, RefreshCw, ArrowRight } from "lucide-react";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 
@@ -218,7 +217,7 @@ const Email = () => {
               {[
                 { icon: <Mail size={24} />, title: 'Email @suaempresa.ao', desc: 'Email profissional personalizado' },
                 { icon: <Calendar size={24} />, title: 'Calendário', desc: 'Agenda integrada e compartilhada' },
-                { icon: <Sync size={24} />, title: 'Sincronização', desc: 'Acesso em todos os dispositivos' },
+                { icon: <RefreshCw size={24} />, title: 'Sincronização', desc: 'Acesso em todos os dispositivos' },
                 { icon: <Shield size={24} />, title: 'Antispam', desc: 'Proteção avançada contra spam' }
               ].map((feature, idx) => (
                 <div key={idx} className="text-center p-6 bg-white rounded-lg border-[3px] border-gray-200">
